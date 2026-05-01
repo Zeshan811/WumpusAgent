@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic Wumpus Logic Agent</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>⚡ Wumpus Logic Agent</h1>
+    <p class="subtitle">Knowledge-Based Pathfinding · Propositional Logic · Resolution Refutation</p>
+
+    <div class="layout">
+
+        <!-- LEFT PANEL -->
+        <div>
+            <div class="panel">
+                <div class="panel-title">⚙ Configuration</div>
+
+                <label>Grid Rows</label>
+                <input type="number" id="inp-rows" value="4" min="3" max="8" />
+
+                <label>Grid Columns</label>
+                <input type="number" id="inp-cols" value="4" min="3" max="8" />
+
+                <label>Number of Pits</label>
+                <input type="number" id="inp-pits" value="3" min="1" max="6" />
+
+                <button class="btn-primary" onclick="initGame()">▶ INITIALIZATION</button>
+                <button class="btn-secondary" onclick="stepAgent()">⮕ STEP AGENT</button>
+                <button class="btn-neutral" onclick="autoRun()">⚡ AUTO RUN</button>
+                <button class="btn-danger" onclick="stopAuto()">■ STOP</button>
+            </div>
+
+            <div class="panel" style="margin-top:14px;">
+                <div class="panel-title">🗺 Legend</div>
+                <div class="legend-item">
+                    <div class="legend-box" style="background:#14532d;border-color:#22c55e;"></div> Safe (visited)
+                </div>
+                <div class="legend-item">
+                    <div class="legend-box" style="background:#0f3460;border-color:#1e5a9a;"></div> Safe (inferred)
+                </div>
+                <div class="legend-item">
+                    <div class="legend-box" style="background:#1f2937;border-color:#374151;"></div> Unknown
+                </div>
+                <div class="legend-item">
+                    <div class="legend-box" style="background:#450a0a;border-color:#ef4444;"></div> Pit / Wumpus
+                </div>
+                <div class="legend-item">
+                    <div style="font-size:1.1rem;">🤖</div> Agent
+                </div>
+                <div class="legend-item">
+                    <div style="font-size:1.1rem;">🌀</div> Pit
+                </div>
+                <div class="legend-item">
+                    <div style="font-size:1.1rem;">👹</div> Wumpus
+                </div>
+                <div class="legend-item">
+                    <div style="font-size:1.1rem;">🏆</div> Gold
+                </div>
+                <div class="legend-item">
+                    <div style="font-size:1.1rem;">💨</div> Breeze
+                </div>
+                <div class="legend-item">
+                    <div style="font-size:1.1rem;">💀</div> Stench
+                </div>
+            </div>
+        </div>
+
+        <!-- CENTER: GRID -->
+        <div class="panel">
+            <div class="panel-title">🗺 Wumpus World Grid</div>
+            <div id="grid-container">
+                <div id="grid"></div>
+            </div>
+
+            <div style="margin-top:12px;">
+                <div class="panel-title">📡 Current Percepts</div>
+                <div class="percept-box" id="percept-display">— Start a new episode —</div>
+            </div>
+
+            <div style="margin-top:12px;">
+                <div class="panel-title">📋 Agent Status Log</div>
+                <div id="status-log"></div>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div>
+            <div class="panel">
+                <div class="panel-title">📊 Real-Time Metrics</div>
+                <div class="metric">
+                    <div class="metric-val" id="m-steps">0</div>
+                    <div class="metric-lbl">INFERENCE STEPS</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-val" id="m-moves">0</div>
+                    <div class="metric-lbl">AGENT MOVES</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-val" id="m-kb">0</div>
+                    <div class="metric-lbl">KB CLAUSES</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-val" id="m-safe">0</div>
+                    <div class="metric-lbl">SAFE CELLS FOUND</div>
+                </div>
+            </div>
+
+            <div class="panel" style="margin-top:14px;">
+                <div class="panel-title">🧠 Knowledge Base (KB)</div>
+                <div id="kb-log"></div>
+            </div>
+
+            <div class="panel" style="margin-top:14px;">
+                <div class="panel-title">🔬 Resolution Refutation</div>
+                <div id="resolution-log"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- GAME OVER OVERLAY -->
+    <div id="overlay">
+        <div class="overlay-box">
+            <h2 id="overlay-title">Game Over</h2>
+            <p id="overlay-msg">The agent has met its fate.</p>
+            <button class="btn-primary" onclick="initGame()">▶ INITIALIZATION</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
